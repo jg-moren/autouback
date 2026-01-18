@@ -16,9 +16,9 @@ nltk.download('stopwords')
 nltk.download('rslp')
 
 app = Flask(__name__)
-CORS(app) # Permite que o HTML fale com o Python
+CORS(app)
 
-# Inicializa o cliente com a sua API Key
+
 client = Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL_ID = "gemini-2.5-flash"
 
@@ -50,7 +50,7 @@ def processar_com_ia(texto_email):
     O JSON deve ter exatamente este formato:
     {{
         "categoria": "Produtivo ou Improdutivo",
-        "resposta_sugerida": "Escreva aqui uma resposta profissional se for produtivo, ou uma mensagem padrão de arquivamento se for improdutivo."
+        "resposta_sugerida": "Escreva aqui uma resposta profissional em formato de email se for produtivo, ou uma mensagem padrão de arquivamento se for improdutivo."
     }}
     """
     
@@ -59,7 +59,7 @@ def processar_com_ia(texto_email):
             model=MODEL_ID,
             contents=prompt
         )
-        # Limpa a resposta para garantir que seja um JSON válido
+        
         texto_limpo = response.text.replace('```json', '').replace('```', '').strip()
         dados = json.loads(texto_limpo)
         
@@ -75,24 +75,24 @@ palavras_irrelevantes = nltk.corpus.stopwords.words('portuguese')
 token_pontuacao = tokenize.WordPunctTokenizer()
 stemmer = nltk.RSLPStemmer()
 
-def processar_avaliacao( avaliacao ):
+def processar_texto( texto ):
 
-    tokens = token_pontuacao.tokenize(avaliacao)
+    tokens = token_pontuacao.tokenize(texto)
 
     #remover paralvras irrelevantes 
-    #frase_processada = [palavra.lower() for palavra in tokens if palavra.lower() not in palavras_irrelevantes]
+    frase_processada = [palavra.lower() for palavra in tokens if palavra.lower() not in palavras_irrelevantes]
     
     #remove simbolos
-    #frase_processada = [palavra for palavra in frase_processada if palavra.isalpha()]
-    
+    frase_processada = [palavra for palavra in frase_processada if palavra.isalpha()]
+
     #remove acentos
-    #frase_processada = [unidecode.unidecode(palavra) for palavra in frase_processada]
+    frase_processada = [unidecode.unidecode(palavra) for palavra in frase_processada]
     
     #aplica o Stemmer (RSLP)
     #frase_processada = [stemmer.stem(palavra) for palavra in frase_processada]
     
-    #return ' '.join(frase_processada)
-    return avaliacao
+    return ' '.join(frase_processada)
+    #return avaliacao
 
 @app.route('/upload', methods=['POST'])
 def processar_email():
@@ -109,7 +109,7 @@ def processar_email():
 
     print(conteudo_texto)
 
-    conteudo_texto = processar_avaliacao(conteudo_texto)
+    conteudo_texto = processar_texto(conteudo_texto)
 
     print(conteudo_texto)
 
