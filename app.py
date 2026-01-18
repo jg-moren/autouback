@@ -107,11 +107,11 @@ def processar_email():
     elif 'text' in request.form:
         conteudo_texto = request.form['text']
 
-    print(conteudo_texto)
+    #print(conteudo_texto)
 
     conteudo_texto = processar_texto(conteudo_texto)
 
-    print(conteudo_texto)
+    #print(conteudo_texto)
 
 
 
