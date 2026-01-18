@@ -80,19 +80,19 @@ def processar_texto( texto ):
     tokens = token_pontuacao.tokenize(texto)
 
     #remover paralvras irrelevantes 
-    frase_processada = [palavra.lower() for palavra in tokens if palavra.lower() not in palavras_irrelevantes]
+    #frase_processada = [palavra.lower() for palavra in tokens if palavra.lower() not in palavras_irrelevantes]
     
     #remove simbolos
-    frase_processada = [palavra for palavra in frase_processada if palavra.isalpha()]
+    #frase_processada = [palavra for palavra in frase_processada if palavra.isalpha()]
 
     #remove acentos
-    frase_processada = [unidecode.unidecode(palavra) for palavra in frase_processada]
+    #frase_processada = [unidecode.unidecode(palavra) for palavra in frase_processada]
     
     #aplica o Stemmer (RSLP)
     #frase_processada = [stemmer.stem(palavra) for palavra in frase_processada]
     
-    return ' '.join(frase_processada)
-    #return avaliacao
+    #return ' '.join(frase_processada)
+    return texto
 
 @app.route('/upload', methods=['POST'])
 def processar_email():
