@@ -50,7 +50,7 @@ def processar_com_ia(texto_email):
     O JSON deve ter exatamente este formato:
     {{
         "categoria": "Produtivo ou Improdutivo",
-        "resposta_sugerida": "Escreva aqui uma resposta profissional em formato de email se for produtivo, ou uma mensagem padrão de arquivamento se for improdutivo."
+        "resposta_sugerida": "Escreva aqui uma resposta curta e profissional em formato de email se for produtivo, ou uma mensagem padrão de arquivamento se for improdutivo."
     }}
     """
     
@@ -80,19 +80,19 @@ def processar_texto( texto ):
     tokens = token_pontuacao.tokenize(texto)
 
     #remover paralvras irrelevantes 
-    #frase_processada = [palavra.lower() for palavra in tokens if palavra.lower() not in palavras_irrelevantes]
+    frase_processada = [palavra.lower() for palavra in tokens if palavra.lower() not in palavras_irrelevantes]
     
     #remove simbolos
-    #frase_processada = [palavra for palavra in frase_processada if palavra.isalpha()]
+    frase_processada = [palavra for palavra in frase_processada if palavra.isalpha()]
 
     #remove acentos
-    #frase_processada = [unidecode.unidecode(palavra) for palavra in frase_processada]
+    frase_processada = [unidecode.unidecode(palavra) for palavra in frase_processada]
     
     #aplica o Stemmer (RSLP)
-    #frase_processada = [stemmer.stem(palavra) for palavra in frase_processada]
+    frase_processada = [stemmer.stem(palavra) for palavra in frase_processada]
     
-    #return ' '.join(frase_processada)
-    return texto
+    return ' '.join(frase_processada)
+    #return texto
 
 @app.route('/upload', methods=['POST'])
 def processar_email():
