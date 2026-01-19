@@ -20,7 +20,7 @@ CORS(app)
 
 
 client = Client(api_key=os.getenv("GEMINI_API_KEY"))
-MODEL_ID = "gemini-2.0-flash"
+MODEL_ID = "gemini-2.5-flash"
 
 
 def extrair_texto_pdf(file):
@@ -59,9 +59,12 @@ def processar_com_ia(texto_email):
             model=MODEL_ID,
             contents=prompt
         )
+        print(response)
+        
         
         texto_limpo = response.text.replace('```json', '').replace('```', '').strip()
-        dados = jsonify(texto_limpo)
+        dados = json.loads(texto_limpo)
+
         return dados
     except Exception as e:
         print(e)
@@ -115,6 +118,7 @@ def processar_email():
 
 
     result = processar_com_ia(conteudo_texto)
+
     print(result)
 
     return result
