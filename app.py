@@ -20,7 +20,7 @@ CORS(app)
 
 
 client = Client(api_key=os.getenv("GEMINI_API_KEY"))
-MODEL_ID = "gemini-2.5-flash"
+MODEL_ID = "gemini-2.0-flash"
 
 
 def extrair_texto_pdf(file):
@@ -61,14 +61,14 @@ def processar_com_ia(texto_email):
         )
         
         texto_limpo = response.text.replace('```json', '').replace('```', '').strip()
-        dados = json.loads(texto_limpo)
-        
+        dados = jsonify(texto_limpo)
         return dados
     except Exception as e:
-        return {
-            "categoria": "Erro", 
-            "resposta_sugerida": e    
-        }
+        print(e)
+        return jsonify({
+            "categoria": "Improdutivo", 
+            "resposta_sugerida": "Limite de testes exedido"
+        })
 
 
 palavras_irrelevantes = nltk.corpus.stopwords.words('portuguese')
@@ -109,15 +109,17 @@ def processar_email():
 
     #print(conteudo_texto)
 
-    conteudo_texto = processar_texto(conteudo_texto)
+    #conteudo_texto = processar_texto(conteudo_texto)
 
     #print(conteudo_texto)
 
 
-
     result = processar_com_ia(conteudo_texto)
-    
+    print(result)
+
     return result
+    
+    #print(result)
 
     categoria = "Produtivo" if "urgente" in conteudo_texto.lower() else "Improdutivo"
     resposta = "Olá, recebemos sua mensagem e daremos prioridade." if categoria == "Produtivo" else "Obrigado pelo contato."
@@ -127,7 +129,7 @@ def processar_email():
         "resposta_sugerida": resposta,
         "texto_extraido": conteudo_texto[:100] # Retorna os primeiros 100 caracteres para conferência
     })
-
+    print(result)
     return result
 
 if __name__ == '__main__':
