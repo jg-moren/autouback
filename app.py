@@ -50,7 +50,7 @@ def processar_com_ia(texto_email):
     O JSON deve ter exatamente este formato:
     {{
         "categoria": "Produtivo ou Improdutivo",
-        "resposta_sugerida": "Escreva aqui uma resposta curta e profissional em formato de email se for produtivo, ou uma mensagem padrão de arquivamento se for improdutivo."
+        "resposta_sugerida": "Escreva aqui uma resposta profissional e curta se for produtivo, ou uma mensagem padrão de arquivamento se for improdutivo."
     }}
     """
     
